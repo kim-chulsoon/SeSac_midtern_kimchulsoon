@@ -17,14 +17,14 @@ exports.readOne = async (req, res) => {
   try {
     const { id } = req.params;
 
-    // if (id.id) {
-    //   res.send("server error");
-    //   return;
-    // }
-
     const oneList = await Todo.findOne({
       where: { id: id },
     });
+
+    if (!oneList) {
+      res.send("todo not found");
+      return;
+    }
     res.send(oneList);
   } catch (err) {
     console.log(err);
@@ -55,6 +55,7 @@ exports.update = async (req, res) => {
         where: { id: req.params.id },
       }
     );
+
     res.send(patchTodo);
   } catch (err) {
     console.log(err);
